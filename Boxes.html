@@ -1,0 +1,327 @@
+<!doctype html>
+
+<html>
+    <body style="background-color:#FFFFFF;">
+    <head>
+        <meta charset="utf-8">
+        <title>TTT</title>
+    </head>
+    <style>
+h1 {
+    font-size: 125px;
+    text-align: center;
+    margin: 0px;
+}
+
+h2 {
+    font-size: 40px;
+    text-align: center;
+    margin: -10px;
+    padding: none;
+}
+
+button {
+    margin: 10px;
+    height: 150px;
+    width: 150px;
+    font-size: 100px;
+    border-width: 10px;
+    border-color: black;
+    background-color: white;
+    color: white;
+}
+    </style>
+    <body onload="reset()">
+        <h1>Tic Tac Toe</h1>
+        <h2>By Dingle | Click to play, G to reset.</h2>
+        <grid style="display: grid; place-items: center; margin-top: 20px;">
+            <row>
+                <button id="1" onclick="toggle(1)">H</button>
+                <button id="2" onclick="toggle(2)">E</button>
+                <button id="3" onclick="toggle(3)">L</button>
+            </row>
+            <row>
+                <button id="4" onclick="toggle(4)">L</button>
+                <button id="5" onclick="toggle(5)">O</button>
+                <button id="6" onclick="toggle(6)">,</button>
+            </row>
+            <row>
+                <button id="7" onclick="toggle(7)">Y</button>
+                <button id="8" onclick="toggle(8)">O</button>
+                <button id="9" onclick="toggle(9)">U</button>
+            </row>
+        </grid>
+        <script>
+            let turn = 0;
+            const squares = [];
+            const gameboard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+            const message = ["H", "E", "L", "L", "O", ",", "Y", "O", "U"];
+            let state = "playing";
+
+            function toggle(id) {
+            if (state == "playing") {
+                if (squares.includes(id) == false) {
+                    if (turn == 0) {
+                        document.getElementById(id).innerHTML ="X";
+                        document.getElementById(id).style.color ="black";
+                        squares.push(id);
+                        gameboard.splice(id-1, 1, "x")
+                        if (squares.length >= 5) {
+                            wincheck(id)
+                        }
+                        turn++;
+                    }
+                    else if (turn == 1) {
+                        document.getElementById(id).innerHTML ="O";
+                        document.getElementById(id).style.color ="black";
+                        squares.push(id);
+                        gameboard.splice(id-1, 1, "o")
+                        if (squares.length >= 5) {
+                            wincheck(id)
+                        }
+                        turn--;
+                    }
+            }
+            }
+
+
+            console.log (squares);
+            console.log (gameboard);
+
+            }
+
+            function reset() {
+
+            document.addEventListener('keydown', function(event) {
+                let keypressed = event.key
+                    if (keypressed == "g") {
+                        for (let s = 1; s < 10; s++) {
+                            document.getElementById(s).innerHTML = message[s-1];
+                            document.getElementById(s).style.color ="white";                
+                        }
+                        squares.length = 0;
+                        for (let s = 0; s < 9; s++) {
+                            gameboard.splice(s, 1, ".")
+                        }
+                        turn = 0;
+                        state = "playing";
+                    }
+                });
+            }
+
+            function wincheck(id) {
+
+            if (turn == 0) {
+                switch (id-1) {
+                    case 0:
+                        if (gameboard[3] == "x" && gameboard[6] == "x") {
+                            indicatewin(0, 3, 6);
+                        }
+                        else if (gameboard[1] == "x" && gameboard[2] == "x") {
+                            indicatewin(0, 1, 2);
+                        }
+                        else if (gameboard[4] == "x" && gameboard[8] == "x") {
+                            indicatewin(0, 4, 8);
+                        }
+                        break;
+                    case 1:
+                        if (gameboard[0] == "x" && gameboard[2] == "x") {
+                            indicatewin(0, 1, 2);
+                        }
+                        else if (gameboard[4] == "x" && gameboard[7] == "x") {
+                            indicatewin(1, 4, 7);
+                        }
+                        break;
+                    case 2:
+                        if (gameboard[5] == "x" && gameboard[8] == "x") {
+                            indicatewin(2, 5, 8);
+                        }
+                        else if (gameboard[0] == "x" && gameboard[1] == "x") {
+                            indicatewin(0, 1, 2);
+                        }
+                        else if (gameboard[4] == "x" && gameboard[6] == "x") {
+                            indicatewin(2, 4, 6);
+                        }
+                        break;
+                    case 3:
+                        if (gameboard[0] == "x" && gameboard[6] == "x") {
+                            indicatewin(0, 3, 6);
+                        }
+                        else if (gameboard[4] == "x" && gameboard[5] == "x") {
+                            indicatewin(3, 4, 5);
+                        }
+                        break;
+                    case 4:
+                        if (gameboard[3] == "x" && gameboard[5] == "x") {
+                            indicatewin(3, 4, 5);
+                        }
+                        else if (gameboard[1] == "x" && gameboard[7] == "x") {
+                            indicatewin(1, 4, 7);
+                        }
+                        else if (gameboard[0] == "x" && gameboard[8] == "x") {
+                            indicatewin(0, 4, 8);
+                        }
+                        else if (gameboard[2] == "x" && gameboard[6] == "x") {
+                            indicatewin(2, 4, 6);
+                        }
+                        break;
+                    case 5:
+                        if (gameboard[2] == "x" && gameboard[8] == "x") {
+                            indicatewin(2, 5, 8);
+                        }
+                        else if (gameboard[3] == "x" && gameboard[4] == "x") {
+                            indicatewin(3, 4, 5);
+                        }
+                        break;
+                    case 6:
+                        if (gameboard[0] == "x" && gameboard[3] == "x") {
+                            indicatewin(0, 3, 6);
+                        }
+                        else if (gameboard[7] == "x" && gameboard[8] == "x") {
+                            indicatewin(6, 7, 8);
+                        }
+                        else if (gameboard[2] == "x" && gameboard[4] == "x") {
+                            indicatewin(2, 4, 6);
+                        }
+                        break;
+                    case 7:
+                        if (gameboard[6] == "x" && gameboard[8] == "x") {
+                            indicatewin(6, 7, 8);
+                        }
+                        else if (gameboard[1] == "x" && gameboard[4] == "x") {
+                            indicatewin(1, 4, 7);
+                        }
+                        break;
+                    case 8:
+                        if (gameboard[2] == "x" && gameboard[5] == "x") {
+                            indicatewin(2, 5, 8);
+                        }
+                        else if (gameboard[6] == "x" && gameboard[7] == "x") {
+                            indicatewin(6, 7, 8);
+                        }
+                        else if (gameboard[0] == "x" && gameboard[4] == "x") {
+                            indicatewin(0, 4, 8);
+                        }
+                        break;
+                }
+                if (squares.length == 9 && state == "playing") {
+                    for (let s = 1; s < 10; s++) {
+                            document.getElementById(s).style.color ="#9A2BC4";   
+                            state = "tie";             
+                        }
+                }
+            }
+            else if (turn == 1) {
+                switch (id-1) {
+                case 0:
+                    if (gameboard[3] == "o" && gameboard[6] == "o") {
+                        indicatewin(0, 3, 6);
+                    }
+                    else if (gameboard[1] == "o" && gameboard[2] == "o") {
+                        indicatewin(0, 1, 2);
+                    }
+                    else if (gameboard[4] == "o" && gameboard[8] == "o") {
+                        indicatewin(0, 4, 8);
+                    }
+                    break;
+                case 1:
+                    if (gameboard[0] == "o" && gameboard[2] == "o") {
+                        indicatewin(0, 1, 2);
+                    }
+                    else if (gameboard[4] == "o" && gameboard[7] == "o") {
+                        indicatewin(1, 4, 7);
+                    }
+                    break;
+                case 2:
+                    if (gameboard[5] == "o" && gameboard[8] == "o") {
+                        indicatewin(2, 5, 8);
+                    }
+                    else if (gameboard[0] == "o" && gameboard[1] == "o") {
+                        indicatewin(0, 1, 2);
+                    }
+                    else if (gameboard[4] == "o" && gameboard[6] == "o") {
+                        indicatewin(2, 4, 6);
+                    }
+                    break;
+                case 3:
+                    if (gameboard[0] == "o" && gameboard[6] == "o") {
+                        indicatewin(0, 3, 6);
+                    }
+                    else if (gameboard[4] == "o" && gameboard[5] == "o") {
+                        indicatewin(3, 4, 5);
+                    }
+                    break;
+                case 4:
+                    if (gameboard[3] == "o" && gameboard[5] == "o") {
+                        indicatewin(3, 4, 5);
+                    }
+                    else if (gameboard[1] == "o" && gameboard[7] == "o") {
+                        indicatewin(1, 4, 7);
+                    }
+                    else if (gameboard[0] == "o" && gameboard[8] == "o") {
+                        indicatewin(0, 4, 8);
+                    }
+                    else if (gameboard[2] == "o" && gameboard[6] == "o") {
+                        indicatewin(2, 4, 6);
+                    }
+                    break;
+                case 5:
+                    if (gameboard[2] == "o" && gameboard[8] == "o") {
+                        indicatewin(2, 5, 8);
+                    }
+                    else if (gameboard[3] == "o" && gameboard[4] == "o") {
+                        indicatewin(3, 4, 5);
+                    }
+                    break;
+                case 6:
+                    if (gameboard[0] == "o" && gameboard[3] == "o") {
+                        indicatewin(0, 3, 6);
+                    }
+                    else if (gameboard[7] == "o" && gameboard[8] == "o") {
+                        indicatewin(6, 7, 8);
+                    }
+                    else if (gameboard[2] == "o" && gameboard[4] == "o") {
+                        indicatewin(2, 4, 6);
+                    }
+                    break;
+                case 7:
+                    if (gameboard[6] == "o" && gameboard[8] == "o") {
+                        indicatewin(6, 7, 8);
+                    }
+                    else if (gameboard[1] == "o" && gameboard[4] == "o") {
+                        indicatewin(1, 4, 7);
+                    }
+                    break;
+                case 8:
+                    if (gameboard[2] == "o" && gameboard[5] == "o") {
+                        indicatewin(2, 5, 8);
+                    }
+                    else if (gameboard[6] == "o" && gameboard[7] == "o") {
+                        indicatewin(6, 7, 8);
+                    }
+                    else if (gameboard[0] == "o" && gameboard[4] == "o") {
+                        indicatewin(0, 4, 8);
+                    }
+                    break;
+            }
+            }
+
+            }
+
+            function indicatewin(x, y, z) {
+
+            if (turn == 0) {
+                document.getElementById(x+1).style.color ="red";
+                document.getElementById(y+1).style.color ="red";
+                document.getElementById(z+1).style.color ="red";
+            }
+            else if (turn == 1) {
+                document.getElementById(x+1).style.color ="blue";
+                document.getElementById(y+1).style.color ="blue";
+                document.getElementById(z+1).style.color ="blue";
+            }
+            state = "gameover";
+            console.log (x+1, y+1, z+1)
+            }
+        </script>
+    </body>
