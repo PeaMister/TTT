@@ -138,7 +138,7 @@ div {
             
             document.addEventListener('keydown', function(event) {
                 let keypressed = event.key
-                    if (keypressed == "j" && state == "playing") {
+                    if (keypressed == "j" && state == "playing" && squares.length > 0) {
                         let msg = squares[squares.length-1];
                         document.getElementById(msg).innerHTML = message[msg-1];
                         document.getElementById(msg).style.color = "white";
