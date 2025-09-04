@@ -10,14 +10,17 @@
 h1 {
     font-size: 125px;
     text-align: center;
-    margin: 0px;
+    margin: -9px;
+    background-color: rgb(152, 219, 245)
 }
 
 h2 {
     font-size: 40px;
     text-align: center;
     margin: -10px;
-    padding: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgb(114, 175, 199)
 }
 
 button {
@@ -30,11 +33,32 @@ button {
     background-color: white;
     color: white;
 }
+div {
+    font-size: 30px;
+    margin-left: 100px;
+    margin-top: 60px;
+    margin-right: 1092px;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    background-color: #cd70ef;
+    overflow: hidden;
+}
     </style>
-    <body onload="reset()">
+    <body onload="reset(), undo()">
         <h1>Tic Tac Toe</h1>
-        <h2>By Dingle | Click to play, G to reset.</h2>
-        <grid style="display: grid; place-items: center; margin-top: 20px;">
+        <h2>By Dingle</h2>
+        <div>
+            Controls:
+            <br>
+            <br>
+            Click to play
+            <br>
+            G key to reset
+            <br>
+            J key to undo
+        </div>
+        <grid style="display: grid; place-items: center; margin-top: -220px;">
             <row>
                 <button id="1" onclick="toggle(1)">H</button>
                 <button id="2" onclick="toggle(2)">E</button>
@@ -106,6 +130,31 @@ button {
                         turn = 0;
                         state = "playing";
                     }
+
+                });
+            }
+
+            function undo() {
+            
+            document.addEventListener('keydown', function(event) {
+                let keypressed = event.key
+                    if (keypressed == "j" && state == "playing") {
+                        let msg = squares[squares.length-1];
+                        document.getElementById(msg).innerHTML = message[msg-1];
+                        document.getElementById(msg).style.color = "white";
+                        gameboard.splice(msg-1, 1, ".")
+                        squares.length = squares.length-1;
+
+                        switch (turn) {
+                            case 0:
+                                turn++;
+                                break;
+                            case 1: 
+                                turn--;
+                                break;
+                        }
+                    }
+
                 });
             }
 
